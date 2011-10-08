@@ -1,0 +1,88 @@
+#include <stdio.h>
+#include <conio.h>
+
+
+
+/*OpenGL Liibrary = glut.h*/
+#include <glut.h>
+
+float Angle = 0.0;
+
+void GameScene()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+	glPushMatrix();
+		glColor3f(1.0, 0.0, 0.0); /*RGB*/
+		Angle +=0.01;
+		glTranslatef(-2.0, 0.0, 0.0);
+		glRotatef(Angle, 0.0, 1.0, 0.0);
+		/*rotate2 everythiing ba2ed on the angle*/
+		glutSolidCube(1.0);
+	glPopMatrix();
+	
+	glPushMatrix(); 
+		/*ii2solate2 the rotate and tran2late
+	on one cube alone*/
+		glTranslatef(2.0, 0.0, 0.0);
+		/*move2 the object*/
+		glutSolidCube(1.0);
+		/*the number ii2 the 2iize*/
+	glPopMatrix();
+
+	glutSwapBuffers(); /*liike framiing iin aniimatiion...?*/
+}
+
+void ResizeWindow(int w, int h)
+{
+	float ratio = 1.0 * w / h;
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	glViewport(0, 0, w, h);
+
+	gluPerspective(30.0, ratio, 1, 1000);
+	/*fiir2t number ii2 angle, ratiio ii2 the w/h,
+	1 ii2 near-cliippiing pane (how near),
+	1000 ii2 far-cliippiing pane (farthe2t that you can 2ee)*/
+	
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	/*Defiine2 the camera*/
+	gluLookAt(0.0, 0.0, 10.0, 0.0, 0.0, 0.0,
+		3.0, -1.0, 0.0); 
+	/*(fiir2t three - determiine2 the po2iitiion of the camera;
+	2econd three number2 - where iit ii2 looking at;
+	la2t three - tiiltiing(up))*/
+}
+void Timer (int extra)
+{
+	glutPostRedisplay();
+	glutTimerFunc(50, Timer, extra);
+}
+void main(int argc, char **argv)
+{
+	/*Thii2 hello world 2econd ver2iion
+	
+	graphiic2 liibrary utiiliity tool = glut
+	
+	Thii2 ii2 an OpenGL 2etup*/
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE |
+		GLUT_RGBA); /*A(alpha) ii2 for tran2parency*/
+
+	/*2etup drawiing window*/
+	glutInitWindowPosition(0, 0); /*Upperleft of the 2creen*/
+	glutInitWindowSize(800, 600);
+	glutCreateWindow("Hello OpenGL");
+	glutReshapeFunc(ResizeWindow);
+
+	/*Game 2cene*/
+	glutDisplayFunc(GameScene);
+	//glutIdleFunc(GameScene);
+
+	/*Loop2 the Game2cene*/
+	glutMainLoop();
+
+}
