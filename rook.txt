@@ -543,6 +543,8 @@ void GameScene()
       glutSolidSphere(1.0, 50, 50);
     glPopMatrix();*/
 
+//body:
+
    glPushMatrix();
 	  glTranslatef(0.0, 2.5, 0.0);
       glRotatef(90.0, 1.0, 0.0, 0.0);  
